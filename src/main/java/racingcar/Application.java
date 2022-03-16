@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 public class Application {
     private static final int ZERO = 0;
-    private static final String GO = "-";
     private static ArrayList<Car> carList;
-    private static ArrayList<String> carPrint;
-
 
     public static void main(String[] args) {
         // TODO 구현 진행
@@ -19,17 +16,18 @@ public class Application {
         gameSettingBeforeStart(user);
         while (user.isGameNumberZero()) {
             makeEveryCarGoOrStop();
+            user.decreaseGameNumber();
         }
     }
 
     public static void makeEveryCarGoOrStop() {
-        int count = 0;
         for (int index = ZERO; index < carList.size(); index++) {
-            if (carList.get(count).goOrStop()) {
-                carList.get(count).enhancePosition();
+            if (carList.get(index).goOrStop()) {
+                carList.get(index).enhancePosition();
             }
-            count++;
+            carList.get(index).printPosition();
         }
+        System.out.println();
     }
 
     public static void gameSettingBeforeStart(User user) {
@@ -41,10 +39,8 @@ public class Application {
 
     public static void makeCarEntity(User user) {
         carList = new ArrayList<>(user.getCarCount());
-        carPrint = new ArrayList<>();
         for (int index = ZERO; index < user.getCarCount(); index++) {
             carList.add(new Car(user.carName.get(index)));
-            carPrint.add(user.carName.get(index) + " : ");
         }
     }
 

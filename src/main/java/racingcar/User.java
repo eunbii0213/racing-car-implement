@@ -46,4 +46,8 @@ public class User {
         return true;
     }
 
+    public static void decreaseGameNumber(){
+        gameNumber--;
+    }
+
 }
