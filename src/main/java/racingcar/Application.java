@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 public class Application {
     private static final int ZERO = 0;
+    private static final String WINNER_IS = "최종 우승자 : ";
+    private static int MAX = 0;
     private static ArrayList<Car> carList;
+    private static String winnerResult="";
 
     public static void main(String[] args) {
         // TODO 구현 진행
@@ -18,16 +21,45 @@ public class Application {
             makeEveryCarGoOrStop();
             user.decreaseGameNumber();
         }
+        whoIsWinner();
     }
 
     public static void makeEveryCarGoOrStop() {
+        //for-each문으로 고치기
         for (int index = ZERO; index < carList.size(); index++) {
             if (carList.get(index).goOrStop()) {
                 carList.get(index).enhancePosition();
             }
             carList.get(index).printPosition();
         }
+
         System.out.println();
+    }
+
+    public static void setMAX() {
+        //for-each문으로 고치기
+        for (int index = ZERO; index < carList.size(); index++) {
+            if (carList.get(index).isBiggerThanPosition(MAX) != -1) {
+                MAX = carList.get(index).isBiggerThanPosition(MAX);
+            }
+        }
+    }
+
+    public static void whoIsWinner() {
+        setMAX();
+        winnerResult += WINNER_IS;
+
+        //for-each문으로 고치기
+        for (int index = ZERO; index < carList.size(); index++) {
+            if (carList.get(index).isSameWithPosition(MAX) != -1) {
+                winnerResult += carList.get(index).getName()+", ";
+            }
+        }
+
+        if(winnerResult.endsWith(", ")){
+            winnerResult = winnerResult.substring(0,winnerResult.length()-2);
+        }
+        System.out.println(winnerResult);
     }
 
     public static void gameSettingBeforeStart(User user) {

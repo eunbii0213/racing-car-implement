@@ -6,23 +6,42 @@ public class Car {
     private final String name;
     private int position = 0;
     private static final String GO = "-";
-    String positionStr="";
+    //public String positionStr = "";
 
     public Car(String name) {
         this.name = name;
-        positionStr = name + " : ";
     }
 
     public void enhancePosition() {
-        position++;
+        position+=1;
     }
 
     public void printPosition() {
-        while (position > 0) {
+        String positionStr = name + " : ";
+        int temp = position;
+
+        while (temp > 0) {
             positionStr += GO;
-            position--;
+            temp--;
         }
         System.out.println(positionStr);
+    }
+
+    public int isBiggerThanPosition(int compareNumber) {
+        if (position >= compareNumber ) {
+            return position;
+        }
+        if(position<= compareNumber){
+            return compareNumber;
+        }
+        return -1;
+    }
+
+    public int isSameWithPosition(int compareNumber) {
+        if (compareNumber == position) {
+            return compareNumber;
+        }
+        return -1;
     }
 
     //true -> 전진, false -> 정지
@@ -35,5 +54,13 @@ public class Car {
 
     public int makerandomNumber() {
         return Randoms.pickNumberInRange(1, 9);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

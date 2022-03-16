@@ -14,39 +14,39 @@ public class User {
     public static int gameNumber;
 
 
-    public User(){
+    public User() {
         carName = new ArrayList<>();
     }
 
-    public void userCarNameInput(){
+    public void userCarNameInput() {
         System.out.println(USER_CAR_INPUT_GUIDE);
-        st = new StringTokenizer(Console.readLine(),",");
+        st = new StringTokenizer(Console.readLine(), ",");
     }
 
-    public void addCarNameInList(){
-        while(st.hasMoreTokens()){
+    public void addCarNameInList() {
+        while (st.hasMoreTokens()) {
             carName.add(st.nextToken());
         }
     }
 
     //addCarNameInList후에 호출되어야함에 유의합니다.
-    public int getCarCount(){
+    public int getCarCount() {
         return carName.size();
     }
 
-    public void userGameNumberInput(){
+    public void userGameNumberInput() {
         System.out.println(USER_GAME_NUMBER_INPUT_GUIDE);
         gameNumber = Integer.parseInt(Console.readLine());
     }
 
-    public static boolean isGameNumberZero(){
-        if(gameNumber == ZERO){
+    public static boolean isGameNumberZero() {
+        if (gameNumber == ZERO) {
             return false;
         }
         return true;
     }
 
-    public static void decreaseGameNumber(){
+    public static void decreaseGameNumber() {
         gameNumber--;
     }
 
