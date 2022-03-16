@@ -3,24 +3,26 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Randoms;
 
 public class Car {
+    private final int ZERO = 0;
+    private final int ONE = 1;
+    private final int GO_NUMBER = 4;
     private final String name;
     private int position = 0;
     private static final String GO = "-";
-    //public String positionStr = "";
 
     public Car(String name) {
         this.name = name;
     }
 
     public void enhancePosition() {
-        position+=1;
+        position += ONE;
     }
 
     public void printPosition() {
         String positionStr = name + " : ";
         int temp = position;
 
-        while (temp > 0) {
+        while (temp > ZERO) {
             positionStr += GO;
             temp--;
         }
@@ -28,25 +30,25 @@ public class Car {
     }
 
     public int isBiggerThanPosition(int compareNumber) {
-        if (position >= compareNumber ) {
+        if (position >= compareNumber) {
             return position;
         }
-        if(position<= compareNumber){
+        if (position <= compareNumber) {
             return compareNumber;
         }
-        return -1;
+        return -ONE;
     }
 
     public int isSameWithPosition(int compareNumber) {
         if (compareNumber == position) {
             return compareNumber;
         }
-        return -1;
+        return -ONE;
     }
 
     //true -> 전진, false -> 정지
     public boolean goOrStop() {
-        if (makerandomNumber() >= 4) {
+        if (makerandomNumber() >= GO_NUMBER) {
             return true;
         }
         return false;
@@ -58,9 +60,5 @@ public class Car {
 
     public String getName() {
         return name;
-    }
-
-    public int getPosition() {
-        return position;
     }
 }

@@ -3,30 +3,27 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class User {
     private static final String USER_CAR_INPUT_GUIDE = "경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)";
     private static final String USER_GAME_NUMBER_INPUT_GUIDE = "시도할 회수는 몇회인가요?";
+    private static final String ERROR_MESSAGE = "[ERROR] 시도 횟수는 숫자여야 한다.";
     private static final int ZERO = 0;
     public static ArrayList<String> carName;
-    private static StringTokenizer st;
     public static int gameNumber;
-
+    public static String userInput="";
+    public static String userNumberInput="";
 
     public User() {
         carName = new ArrayList<>();
     }
 
-    public void userCarNameInput() {
+    public void userCarNameInput(Checker checker, User user) {
         System.out.println(USER_CAR_INPUT_GUIDE);
-        st = new StringTokenizer(Console.readLine(), ",");
-    }
+        userInput = Console.readLine();
 
-    public void addCarNameInList() {
-        while (st.hasMoreTokens()) {
-            carName.add(st.nextToken());
-        }
+        checker.userInputChecker(userInput, user);
+
     }
 
     //addCarNameInList후에 호출되어야함에 유의합니다.
@@ -34,9 +31,17 @@ public class User {
         return carName.size();
     }
 
-    public void userGameNumberInput() {
+    public void userGameNumberInput(Checker checker) {
         System.out.println(USER_GAME_NUMBER_INPUT_GUIDE);
-        gameNumber = Integer.parseInt(Console.readLine());
+
+        userNumberInput = Console.readLine();
+        try {
+            checker.userInputNumberChecker(userNumberInput);
+        }catch(IllegalArgumentException e){
+            System.out.println(ERROR_MESSAGE);
+            userGameNumberInput(checker);
+        }
+        gameNumber = Integer.parseInt(userNumberInput);
     }
 
     public static boolean isGameNumberZero() {
@@ -49,5 +54,4 @@ public class User {
     public static void decreaseGameNumber() {
         gameNumber--;
     }
-
 }
