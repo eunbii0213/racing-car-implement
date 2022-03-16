@@ -1,6 +1,7 @@
 package racingcar;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 public class Application {
     private static final int ZERO = 0;
@@ -38,23 +39,14 @@ public class Application {
 
     public static void setMAX() {
         //for-each문으로 고치기
-        for (int index = ZERO; index < carList.size(); index++) {
-            if (carList.get(index).isBiggerThanPosition(MAX) != -1) {
-                MAX = carList.get(index).isBiggerThanPosition(MAX);
-            }
-        }
+        IntStream.range(ZERO, carList.size()).filter(index -> carList.get(index).isBiggerThanPosition(MAX) != -1).forEach(index -> MAX = carList.get(index).isBiggerThanPosition(MAX));
     }
 
     public static void whoIsWinner() {
         setMAX();
         winnerResult += WINNER_IS;
 
-        //for-each문으로 고치기
-        for (int index = ZERO; index < carList.size(); index++) {
-            if (carList.get(index).isSameWithPosition(MAX) != -1) {
-                winnerResult += carList.get(index).getName()+", ";
-            }
-        }
+        IntStream.range(ZERO, carList.size()).filter(index -> carList.get(index).isSameWithPosition(MAX) != -1).forEach(index -> winnerResult += carList.get(index).getName() + ", ");
 
         if(winnerResult.endsWith(", ")){
             winnerResult = winnerResult.substring(0,winnerResult.length()-2);
