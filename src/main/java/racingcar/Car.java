@@ -48,13 +48,13 @@ public class Car {
 
     //true -> 전진, false -> 정지
     public boolean goOrStop() {
-        if (makerandomNumber() >= GO_NUMBER) {
+        if (makeRandomNumber() >= GO_NUMBER) {
             return true;
         }
         return false;
     }
 
-    public int makerandomNumber() {
+    public int makeRandomNumber() {
         return Randoms.pickNumberInRange(1, 9);
     }
 
