@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 import java.util.stream.IntStream;
 
 public class Checker {
-
     private static final int ZERO = 0;
     private static final int ONE = 1;
     private static final String COMMA = ",";
@@ -21,7 +20,7 @@ public class Checker {
 
     public String catchErrorSameName(String userInput, User user) {
         try {
-            isSameName(userInput, user);
+            isSameName(userInput);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + SAME_NAME_MESSAGE);
             userInput = Console.readLine();
@@ -51,8 +50,8 @@ public class Checker {
             } catch (IllegalArgumentException e) {
                 clearTempList();
                 System.out.println(ERROR_MESSAGE + SPECIAL_LETTER_MESSAGE);
-                String anotherUserInput = Console.readLine();
-                userInputChecker(anotherUserInput, user);
+                userInput = Console.readLine();
+                userInputChecker(userInput, user);
             }
             index++;
         }
@@ -78,7 +77,7 @@ public class Checker {
         }
     }
 
-    public void isSameName(String userInput, User user) {
+    public void isSameName(String userInput) {
         addNameInTempList(userInput);
 
         IntStream.range(ZERO, tempList.size() - ONE).filter(index -> tempList.get(index).equals(tempList.get(index + ONE))).forEach(index -> {

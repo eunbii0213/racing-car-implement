@@ -33,7 +33,6 @@ public class Application {
     }
 
     public static void makeEveryCarGoOrStop() {
-        System.out.println("carList size : " + carList.size());
         IntStream.range(ZERO, carList.size()).forEach(index -> {
             if (carList.get(index).isCarGo()) {
                 carList.get(index).enhancePosition();
@@ -68,7 +67,6 @@ public class Application {
 
     public static void makeCarEntity(User user) {
         carList = new ArrayList<>(user.getCarCount());
-        System.out.println("User getCarCount : " + user.getCarCount());
         for (int index = ZERO; index < user.getCarCount(); index++) {
             carList.add(new Car(user.carName.get(index)));
         }

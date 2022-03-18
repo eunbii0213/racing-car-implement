@@ -6,9 +6,11 @@ public class Car {
     private final int ZERO = 0;
     private final int ONE = 1;
     private final int GO_NUMBER = 4;
+    private final String COLON_WITH_BLANK = " : ";
     private final String name;
     private int position = 0;
     private static final String GO = "-";
+
 
     public Car(String name) {
         this.name = name;
@@ -19,7 +21,7 @@ public class Car {
     }
 
     public void printPosition() {
-        String positionStr = name + " : ";
+        String positionStr = name + COLON_WITH_BLANK;
         int temp = position;
 
         while (temp > ZERO) {
