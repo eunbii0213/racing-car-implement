@@ -28,10 +28,27 @@ public class User {
         checker.userInputChecker(userInput, user);
     }
 
+    public void setUserInput(String userInput) {
+        this.userInput = userInput;
+    }
+
     public void carNameListAdd(String userInput) {
         StringTokenizer st = new StringTokenizer(userInput, COMMA);
         while (st.hasMoreTokens()) {
-            carName.add(st.nextToken());
+            String str = st.nextToken();
+            carName.add(str);
+        }
+    }
+
+    public void carNameListDeepCopyFromOtherList(ArrayList<String> otherList) {
+        if (!carName.isEmpty()) {
+            carNameClear();
+        }
+
+        int index = 0;
+        for (String carNameStr : otherList) {
+            carName.add(otherList.get(index));
+            index++;
         }
     }
 

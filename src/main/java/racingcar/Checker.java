@@ -56,6 +56,7 @@ public class Checker {
             }
             index++;
         }
+        clearTempList();
         return userInput;
     }
 
@@ -64,7 +65,11 @@ public class Checker {
         userInput = catchErrorSameName(userInput, user);
         userInput = catchErrorNameLength(userInput, user);
 
-        user.userInput = userInput;
+        addNameInTempList(userInput);
+        user.setUserInput(userInput);
+        user.carNameListDeepCopyFromOtherList(tempList);
+
+        clearTempList();
     }
 
     private void clearTempList() {
@@ -74,27 +79,36 @@ public class Checker {
     }
 
     public void isSameName(String userInput, User user) {
-        user.carNameListAdd(userInput);
+        addNameInTempList(userInput);
 
-        IntStream.range(ZERO, user.carName.size() - ONE).filter(index -> user.carName.get(index).equals(user.carName.get(index + ONE))).forEach(index -> {
-            user.carNameClear();
+        IntStream.range(ZERO, tempList.size() - ONE).filter(index -> tempList.get(index).equals(tempList.get(index + ONE))).forEach(index -> {
+            clearTempList();
             throw new IllegalArgumentException();
         });
+        clearTempList();
+    }
+
+    public void addNameInTempList(String userInput) {
+        StringTokenizer st = new StringTokenizer(userInput, COMMA);
+        while (st.hasMoreTokens()) {
+            String str = st.nextToken();
+            tempList.add(str);
+        }
     }
 
     public void addTempList(String userInput) {
         for (int index = ZERO; index < userInput.length(); index++) {
-            String str = "";
+            String oneLetter = "";
 
             boolean isLastIndex = false;
             if (index == userInput.length() - ONE) {
-                str = userInput.substring(userInput.length() - ONE);
+                oneLetter = userInput.substring(userInput.length() - ONE);
                 isLastIndex = true;
             }
             if (!isLastIndex) {
-                str = userInput.substring(index, index + ONE);
+                oneLetter = userInput.substring(index, index + ONE);
             }
-            tempList.add(str);
+            tempList.add(oneLetter);
         }
     }
 
