@@ -12,6 +12,7 @@ public class User {
     private static final int ZERO = 0;
     public static ArrayList<String> carName;
     public static int gameNumber;
+    public static final String COMMA = ",";
     public static String userInput = "";
     public static String userNumberInput = "";
 
@@ -28,7 +29,7 @@ public class User {
     }
 
     public void carNameListAdd(String userInput) {
-        StringTokenizer st = new StringTokenizer(userInput, ",");
+        StringTokenizer st = new StringTokenizer(userInput, COMMA);
         while (st.hasMoreTokens()) {
             carName.add(st.nextToken());
         }
