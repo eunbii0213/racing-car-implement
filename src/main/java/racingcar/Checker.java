@@ -19,48 +19,52 @@ public class Checker {
     private static final String IS_SPECIAL_LETTER = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*";
     public static ArrayList<String> tempList = new ArrayList<>();
 
-    public void catchErrorSameName(String userInput, User user) {
+    public String catchErrorSameName(String userInput, User user) {
         try {
-            isSameName(user);
-            setRightUserInput(userInput, user);
+            isSameName(userInput, user);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + SAME_NAME_MESSAGE);
             userInput = Console.readLine();
-            catchErrorSameName(userInput, user);
+            userInputChecker(userInput, user);
         }
+        return userInput;
     }
 
-    public void catchErrorNameLength(String userInput, User user) {
+    public String catchErrorNameLength(String userInput, User user) {
         try {
             userInputIsMoreThanFiveLetters(userInput, user);
-            setRightUserInput(userInput, user);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + MAX_LENGTH_MESSAGE);
             userInput = Console.readLine();
-            catchErrorNameLength(userInput, user);
+            userInputChecker(userInput, user);
         }
+        return userInput;
     }
 
-    public void catchErrorSpecialLetter(String userInput, User user) {
+    public String catchErrorSpecialLetter(String userInput, User user) {
         addTempList(userInput);
 
         int index = 0;
         while (index < tempList.size()) {
             try {
                 isContainSpecialLetter(index);
-                setRightUserInput(userInput, user);
             } catch (IllegalArgumentException e) {
+                clearTempList();
                 System.out.println(ERROR_MESSAGE + SPECIAL_LETTER_MESSAGE);
-                userInput = Console.readLine();
-                catchErrorSpecialLetter(userInput, user);
+                String anotherUserInput = Console.readLine();
+                userInputChecker(anotherUserInput, user);
             }
             index++;
         }
+        return userInput;
     }
 
-    public void setRightUserInput(String userInput, User user) {
-        user.setUserInput(userInput);
-        clearTempList();
+    public void userInputChecker(String userInput, User user) {
+        userInput = catchErrorSpecialLetter(userInput, user);
+        userInput = catchErrorSameName(userInput, user);
+        userInput = catchErrorNameLength(userInput, user);
+
+        user.userInput = userInput;
     }
 
     private void clearTempList() {
@@ -69,8 +73,11 @@ public class Checker {
         }
     }
 
-    public void isSameName(User user) {
+    public void isSameName(String userInput, User user) {
+        user.carNameListAdd(userInput);
+
         IntStream.range(ZERO, user.carName.size() - ONE).filter(index -> user.carName.get(index).equals(user.carName.get(index + ONE))).forEach(index -> {
+            user.carNameClear();
             throw new IllegalArgumentException();
         });
     }

@@ -3,6 +3,7 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class User {
     private static final String USER_CAR_INPUT_GUIDE = "경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)";
@@ -22,13 +23,21 @@ public class User {
         System.out.println(USER_CAR_INPUT_GUIDE);
         userInput = Console.readLine();
 
-        checker.catchErrorNameLength(userInput, user);
-        checker.catchErrorSameName(userInput, user);
-        checker.catchErrorSpecialLetter(userInput, user);
+        carNameListAdd(userInput);
+        checker.userInputChecker(userInput, user);
     }
 
-    public static void setUserInput(String userInput) {
-        User.userInput = userInput;
+    public void carNameListAdd(String userInput) {
+        StringTokenizer st = new StringTokenizer(userInput, ",");
+        while (st.hasMoreTokens()) {
+            carName.add(st.nextToken());
+        }
+    }
+
+    public void carNameClear() {
+        while (!carName.isEmpty()) {
+            carName.remove(0);
+        }
     }
 
     //addCarNameInList후에 호출되어야함에 유의합니다.
@@ -58,5 +67,9 @@ public class User {
 
     public static void decreaseGameNumber() {
         gameNumber--;
+    }
+
+    public void setUserInput(String userInput) {
+        this.userInput = userInput;
     }
 }
