@@ -34,7 +34,7 @@ public class Application {
 
     public static void makeEveryCarGoOrStop() {
         IntStream.range(ZERO, carList.size()).forEach(index -> {
-            if (carList.get(index).goOrStop()) {
+            if (carList.get(index).isCarGo()) {
                 carList.get(index).enhancePosition();
             }
             carList.get(index).printPosition();

@@ -46,8 +46,7 @@ public class Car {
         return -ONE;
     }
 
-    //true -> 전진, false -> 정지
-    public boolean goOrStop() {
+    public boolean isCarGo() {
         if (makeRandomNumber() >= GO_NUMBER) {
             return true;
         }
