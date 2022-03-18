@@ -36,7 +36,7 @@ public class User {
 
     public void carNameClear() {
         while (!carName.isEmpty()) {
-            carName.remove(0);
+            carName.remove(ZERO);
         }
     }
 

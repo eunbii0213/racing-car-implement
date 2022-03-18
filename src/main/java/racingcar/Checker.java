@@ -44,7 +44,7 @@ public class Checker {
     public String catchErrorSpecialLetter(String userInput, User user) {
         addTempList(userInput);
 
-        int index = 0;
+        int index = ZERO;
         while (index < tempList.size()) {
             try {
                 isContainSpecialLetter(index);
@@ -69,7 +69,7 @@ public class Checker {
 
     private void clearTempList() {
         while (!tempList.isEmpty()) {
-            tempList.remove(0);
+            tempList.remove(ZERO);
         }
     }
 
