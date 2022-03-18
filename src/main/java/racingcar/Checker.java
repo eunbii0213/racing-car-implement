@@ -19,51 +19,47 @@ public class Checker {
     private static final String IS_SPECIAL_LETTER = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*";
     public static ArrayList<String> tempList = new ArrayList<>();
 
-    public String getErrorSameName(User user, String userInput) {
+    public void catchErrorSameName(String userInput, User user) {
         try {
             isSameName(user);
+            setRightUserInput(userInput, user);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + SAME_NAME_MESSAGE);
             userInput = Console.readLine();
-            userInputChecker(userInput, user);
+            catchErrorSameName(userInput, user);
         }
-        return userInput;
     }
 
-    public String getErrorNameLength(String userInput, User user) {
+    public void catchErrorNameLength(String userInput, User user) {
         try {
             userInputIsMoreThanFiveLetters(userInput, user);
+            setRightUserInput(userInput, user);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + MAX_LENGTH_MESSAGE);
             userInput = Console.readLine();
-            userInputChecker(userInput, user);
+            catchErrorNameLength(userInput, user);
         }
-        return userInput;
     }
 
-    public String getErrorSpecialLetter(String userInput, User user) {
+    public void catchErrorSpecialLetter(String userInput, User user) {
         addTempList(userInput);
 
         int index = 0;
         while (index < tempList.size()) {
             try {
                 isContainSpecialLetter(index);
+                setRightUserInput(userInput, user);
             } catch (IllegalArgumentException e) {
                 System.out.println(ERROR_MESSAGE + SPECIAL_LETTER_MESSAGE);
                 userInput = Console.readLine();
-                userInputChecker(userInput, user);
+                catchErrorSpecialLetter(userInput, user);
             }
             index++;
         }
-        return userInput;
     }
 
-    public void userInputChecker(String userInput, User user) {
-        userInput = getErrorSpecialLetter(userInput, user);
-        userInput = getErrorNameLength(userInput, user);
-        userInput = getErrorSameName(user, userInput);
-
-        user.userInput = userInput;
+    public void setRightUserInput(String userInput, User user) {
+        user.setUserInput(userInput);
         clearTempList();
     }
 

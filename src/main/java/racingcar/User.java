@@ -11,8 +11,8 @@ public class User {
     private static final int ZERO = 0;
     public static ArrayList<String> carName;
     public static int gameNumber;
-    public static String userInput="";
-    public static String userNumberInput="";
+    public static String userInput = "";
+    public static String userNumberInput = "";
 
     public User() {
         carName = new ArrayList<>();
@@ -22,8 +22,13 @@ public class User {
         System.out.println(USER_CAR_INPUT_GUIDE);
         userInput = Console.readLine();
 
-        checker.userInputChecker(userInput, user);
+        checker.catchErrorNameLength(userInput, user);
+        checker.catchErrorSameName(userInput, user);
+        checker.catchErrorSpecialLetter(userInput, user);
+    }
 
+    public static void setUserInput(String userInput) {
+        User.userInput = userInput;
     }
 
     //addCarNameInList후에 호출되어야함에 유의합니다.
@@ -37,7 +42,7 @@ public class User {
         userNumberInput = Console.readLine();
         try {
             checker.userInputNumberChecker(userNumberInput);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE);
             userGameNumberInput(checker);
         }
