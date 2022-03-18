@@ -68,8 +68,4 @@ public class User {
     public static void decreaseGameNumber() {
         gameNumber--;
     }
-
-    public void setUserInput(String userInput) {
-        this.userInput = userInput;
-    }
 }
