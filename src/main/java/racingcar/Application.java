@@ -1,17 +1,16 @@
 package racingcar;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class Application {
-    private static final int ZERO = 0;
-    private static final int ONE = 1;
-    private static final int TWO = 2;
+    private static final int INITIAL_INDEX = 0;
     private static final String COMMA_WITH_BLANK = ", ";
     private static final String WINNER_IS = "최종 우승자 : ";
-    private static int MAX = 0;
-    private static ArrayList<Car> carList;
-    private static String winnerResult = "";
+    private static List<Car> carList;
+    private static List<String> winnerResult;
 
     public static void main(String[] args) {
         User user = makeUserEntity();
@@ -25,7 +24,7 @@ public class Application {
 
     public static void gameStart(User user, Checker checker) {
         gameSettingBeforeStart(user, checker);
-        while (user.isGameNumberZero()) {
+        while (!user.isDontStartGame()) {
             makeEveryCarGoOrStop();
             user.decreaseGameNumber();
         }
@@ -33,7 +32,7 @@ public class Application {
     }
 
     public static void makeEveryCarGoOrStop() {
-        IntStream.range(ZERO, carList.size()).forEach(index -> {
+        IntStream.range(INITIAL_INDEX, carList.size()).forEach(index -> {
             if (carList.get(index).isCarGo()) {
                 carList.get(index).enhancePosition();
             }
@@ -43,20 +42,25 @@ public class Application {
         System.out.println();
     }
 
-    public static void setMAX() {
-        IntStream.range(ZERO, carList.size()).filter(index -> carList.get(index).isBiggerThanPosition(MAX) != -ONE).forEach(index -> MAX = carList.get(index).isBiggerThanPosition(MAX));
+    public static Car setMAX() {
+
+        Car maxMember = carList
+                .stream()
+                .max(Comparator.comparing(Car::getPosition))
+                .orElseThrow(IllegalArgumentException::new);
+
+        return maxMember;
     }
 
     public static void whoIsWinner() {
-        setMAX();
-        winnerResult += WINNER_IS;
+        Car maxCarEntity = setMAX();
+        winnerResult = new ArrayList<>();
 
-        IntStream.range(ZERO, carList.size()).filter(index -> carList.get(index).isSameWithPosition(MAX) != -ONE).forEach(index -> winnerResult += carList.get(index).getName() + COMMA_WITH_BLANK);
+        IntStream.range(INITIAL_INDEX, carList.size()).filter(
+                index -> carList.get(index).isSameWithPosition(maxCarEntity.getPosition())).forEachOrdered(
+                index -> winnerResult.add(carList.get(index).getName()));
 
-        if (winnerResult.endsWith(COMMA_WITH_BLANK)) {
-            winnerResult = winnerResult.substring(ZERO, winnerResult.length() - TWO);
-        }
-        System.out.println(winnerResult);
+        System.out.println(WINNER_IS + String.join(COMMA_WITH_BLANK, winnerResult));
     }
 
     public static void gameSettingBeforeStart(User user, Checker checker) {
@@ -66,9 +70,9 @@ public class Application {
     }
 
     public static void makeCarEntity(User user) {
-        carList = new ArrayList<>(user.getCarCount());
-        for (int index = ZERO; index < user.getCarCount(); index++) {
-            carList.add(new Car(user.carName.get(index)));
+        carList = new ArrayList<>();
+        for (int index = INITIAL_INDEX; index < user.getCarName().size(); index++) {
+            carList.add(new Car(user.getCarName().get(index)));
         }
     }
 

@@ -3,60 +3,48 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Randoms;
 
 public class Car {
-    private final int ZERO = 0;
-    private final int ONE = 1;
-    private final int GO_NUMBER = 4;
-    private final String COLON_WITH_BLANK = " : ";
+    private static final int ZERO = 0;
+    private static final int RANDOM_RANGE_START = 1;
+    private static final int RANDOM_RANGE_END = 9;
+    private static final int GO_NUMBER = 4;
+    private static final String COLON_WITH_BLANK = " : ";
     private final String name;
     private int position = 0;
     private static final String GO = "-";
-
 
     public Car(String name) {
         this.name = name;
     }
 
     public void enhancePosition() {
-        position += ONE;
+        position++;
     }
 
     public void printPosition() {
         String positionStr = name + COLON_WITH_BLANK;
-        int temp = position;
+        int tempPositionNumber = position;
 
-        while (temp > ZERO) {
+        while (tempPositionNumber > ZERO) {
             positionStr += GO;
-            temp--;
+            tempPositionNumber--;
         }
         System.out.println(positionStr);
     }
 
-    public int isBiggerThanPosition(int compareNumber) {
-        if (position >= compareNumber) {
-            return position;
-        }
-        if (position <= compareNumber) {
-            return compareNumber;
-        }
-        return -ONE;
+    public int getPosition() {
+        return position;
     }
 
-    public int isSameWithPosition(int compareNumber) {
-        if (compareNumber == position) {
-            return compareNumber;
-        }
-        return -ONE;
+    public boolean isSameWithPosition(int compareNumber) {
+        return compareNumber == position;
     }
 
     public boolean isCarGo() {
-        if (makeRandomNumber() >= GO_NUMBER) {
-            return true;
-        }
-        return false;
+        return makeRandomNumber() >= GO_NUMBER;
     }
 
     public int makeRandomNumber() {
-        return Randoms.pickNumberInRange(1, 9);
+        return Randoms.pickNumberInRange(RANDOM_RANGE_START, RANDOM_RANGE_END);
     }
 
     public String getName() {

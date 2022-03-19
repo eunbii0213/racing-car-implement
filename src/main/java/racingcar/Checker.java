@@ -3,12 +3,12 @@ package racingcar;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.IntStream;
 
 public class Checker {
-    private static final int ZERO = 0;
-    private static final int ONE = 1;
+    private static final int INITIAL_INDEX = 0;
     private static final String COMMA = ",";
     private static final String SAME_NAME_MESSAGE = " 각 자동차마다 다른 이름으로 입력해야한다.";
     private static final String MAX_LENGTH_MESSAGE = " 자동차의 이름은 5글자 이하로 입력해야 한다.";
@@ -16,7 +16,7 @@ public class Checker {
     private static final String ERROR_MESSAGE = "[ERROR]";
     private static final int MAX_NAME_LENGTH = 5;
     private static final String IS_SPECIAL_LETTER = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*";
-    public static ArrayList<String> tempList = new ArrayList<>();
+    private List<String> tempList = new ArrayList<>();
 
     public String catchErrorSameName(String userInput, User user) {
         try {
@@ -31,7 +31,7 @@ public class Checker {
 
     public String catchErrorNameLength(String userInput, User user) {
         try {
-            userInputIsMoreThanFiveLetters(userInput, user);
+            userInputIsMoreThanFiveLetters(userInput);
         } catch (IllegalArgumentException e) {
             System.out.println(ERROR_MESSAGE + MAX_LENGTH_MESSAGE);
             userInput = Console.readLine();
@@ -43,19 +43,19 @@ public class Checker {
     public String catchErrorSpecialLetter(String userInput, User user) {
         addTempList(userInput);
 
-        int index = ZERO;
+        int index = INITIAL_INDEX;
         while (index < tempList.size()) {
             try {
                 isContainSpecialLetter(index);
             } catch (IllegalArgumentException e) {
-                clearTempList();
+                tempList.clear();
                 System.out.println(ERROR_MESSAGE + SPECIAL_LETTER_MESSAGE);
                 userInput = Console.readLine();
                 userInputChecker(userInput, user);
             }
             index++;
         }
-        clearTempList();
+        tempList.clear();
         return userInput;
     }
 
@@ -64,27 +64,19 @@ public class Checker {
         userInput = catchErrorSameName(userInput, user);
         userInput = catchErrorNameLength(userInput, user);
 
-        addNameInTempList(userInput);
-        user.setUserInput(userInput);
-        user.carNameListDeepCopyFromOtherList(tempList);
-
-        clearTempList();
-    }
-
-    private void clearTempList() {
-        while (!tempList.isEmpty()) {
-            tempList.remove(ZERO);
-        }
+        tempList.clear();
     }
 
     public void isSameName(String userInput) {
         addNameInTempList(userInput);
 
-        IntStream.range(ZERO, tempList.size() - ONE).filter(index -> tempList.get(index).equals(tempList.get(index + ONE))).forEach(index -> {
-            clearTempList();
-            throw new IllegalArgumentException();
-        });
-        clearTempList();
+        IntStream.range(INITIAL_INDEX, tempList.size() - 1)
+                .filter(index -> tempList.get(index).equals(tempList.get(index + 1)))
+                .forEach(index -> {
+                    tempList.clear();
+                    throw new IllegalArgumentException();
+                });
+        tempList.clear();
     }
 
     public void addNameInTempList(String userInput) {
@@ -96,16 +88,16 @@ public class Checker {
     }
 
     public void addTempList(String userInput) {
-        for (int index = ZERO; index < userInput.length(); index++) {
+        for (int index = INITIAL_INDEX; index < userInput.length(); index++) {
             String oneLetter = "";
 
             boolean isLastIndex = false;
-            if (index == userInput.length() - ONE) {
-                oneLetter = userInput.substring(userInput.length() - ONE);
+            if (index == userInput.length() - 1) {
+                oneLetter = userInput.substring(userInput.length() - 1);
                 isLastIndex = true;
             }
             if (!isLastIndex) {
-                oneLetter = userInput.substring(index, index + ONE);
+                oneLetter = userInput.substring(index, index + 1);
             }
             tempList.add(oneLetter);
         }
@@ -121,23 +113,24 @@ public class Checker {
         }
     }
 
-    public void userInputIsMoreThanFiveLetters(String userInput, User user) {
+    public void userInputIsMoreThanFiveLetters(String userInput) {
         StringTokenizer st = new StringTokenizer(userInput, COMMA);
         while (st.hasMoreTokens()) {
             String str = st.nextToken();
             if (str.length() > MAX_NAME_LENGTH) {
-                user.carName.clear();
                 throw new IllegalArgumentException();
             }
-            user.carName.add(str);
         }
     }
 
-    public void userInputNumberChecker(String userInput) {
+    public int userInputNumberChecker(String userInput) {
+
+        int userInputToInt;
         try {
-            Integer.parseInt(userInput);
+            userInputToInt = Integer.parseInt(userInput);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException();
         }
+        return userInputToInt;
     }
 }
