@@ -124,7 +124,6 @@ public class Checker {
     }
 
     public int userInputNumberChecker(String userInput) {
-
         int userInputToInt;
         try {
             userInputToInt = Integer.parseInt(userInput);
