@@ -14,16 +14,16 @@ public class Application {
 
     public static void main(String[] args) {
         User user = makeUserEntity();
-        Checker checker = makeCheckerEntity();
-        gameStart(user, checker);
+        ErrorMessageView view = maekeErrorMessageViewEntity();
+        gameStart(user, view);
     }
 
-    private static Checker makeCheckerEntity() {
-        return new Checker();
+    private static ErrorMessageView maekeErrorMessageViewEntity() {
+        return new ErrorMessageView();
     }
 
-    public static void gameStart(User user, Checker checker) {
-        gameSettingBeforeStart(user, checker);
+    public static void gameStart(User user, ErrorMessageView view) {
+        gameSettingBeforeStart(user, view);
         while (!user.isDontStartGame()) {
             makeEveryCarGoOrStop();
             user.decreaseGameNumber();
@@ -43,7 +43,6 @@ public class Application {
     }
 
     public static Car setMAX() {
-
         Car maxMember = carList
                 .stream()
                 .max(Comparator.comparing(Car::getPosition))
@@ -63,9 +62,9 @@ public class Application {
         System.out.println(WINNER_IS + String.join(COMMA_WITH_BLANK, winnerResult));
     }
 
-    public static void gameSettingBeforeStart(User user, Checker checker) {
-        user.userCarNameInput(checker, user);
-        user.userGameNumberInput(checker);
+    public static void gameSettingBeforeStart(User user, ErrorMessageView view) {
+        user.userCarNameInput(view, user);
+        user.userGameNumberInput(view);
         makeCarEntity(user);
     }
 
