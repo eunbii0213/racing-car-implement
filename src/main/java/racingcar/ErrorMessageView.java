@@ -57,5 +57,4 @@ public class ErrorMessageView extends Checker{
         }
         return userInput;
     }
-
 }

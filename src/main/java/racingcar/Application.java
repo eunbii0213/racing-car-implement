@@ -14,11 +14,11 @@ public class Application {
 
     public static void main(String[] args) {
         User user = makeUserEntity();
-        ErrorMessageView view = maekeErrorMessageViewEntity();
+        ErrorMessageView view = makeErrorMessageViewEntity();
         gameStart(user, view);
     }
 
-    private static ErrorMessageView maekeErrorMessageViewEntity() {
+    private static ErrorMessageView makeErrorMessageViewEntity() {
         return new ErrorMessageView();
     }
 

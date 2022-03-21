@@ -41,9 +41,7 @@ public class User {
     public void userGameNumberInput(ErrorMessageView view) {
         System.out.println(USER_GAME_NUMBER_INPUT_GUIDE);
         String userNumberInputBeforeCheck = Console.readLine();
-
         gameNumber = view.catchErrorUserInputNumberChecker(userNumberInputBeforeCheck);
-        //gameNumber = Integer.parseInt(userNumberInput);
     }
 
     public boolean isDontStartGame() {
